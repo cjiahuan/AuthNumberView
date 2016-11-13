@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AuthNumberView">
+        <attr name="numberCount" format="integer"></attr>
+        <attr name="codeTextColor" format="color"></attr>
+        <attr name="codeTextSize" format="dimension"></attr>
+        <attr name="codePadding" format="dimension"></attr>
+        <attr name="borderSize" format="dimension"></attr>
+        <attr name="codeBgDrawable" format="reference"></attr>
+    </declare-styleable>
+</resources>
