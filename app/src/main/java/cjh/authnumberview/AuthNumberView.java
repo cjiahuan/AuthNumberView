@@ -29,6 +29,12 @@ import java.util.ArrayList;
 
 public class AuthNumberView extends LinearLayout {
 
+    public class TypeValue {
+        public static final int SP = 1;
+        public static final int DP = 2;
+        public static final int PX = 3;
+    }
+
     private static final int DEFAULT_NUMBER_COUNT = 4;
 
     private static final int DEFAULT_WH = 50;
@@ -37,7 +43,7 @@ public class AuthNumberView extends LinearLayout {
 
     private static final int DEFAULT_CODETEXTSIZE = 22;
 
-    private static final int DEFAULT_CODETEXTCOLOR = 0xe36b1f;
+    private static final int DEFAULT_CODETEXTCOLOR = 0xffe36b1f;
 
     private static final int DEFAULT_CODEPADDING = 2;
 
@@ -218,6 +224,25 @@ public class AuthNumberView extends LinearLayout {
 
     private int dip2px(float dip) {
         return (int) (dip * dm.density + 0.5);
+    }
+
+    public void setCodeTextColor(String color) {
+        int _color = Color.parseColor(color);
+        setCodeTextColor(_color);
+    }
+
+    public void setCodeTextColor(int color) {
+        for (EditText et : list) {
+            et.setTextColor(color);
+        }
+    }
+
+    public void setCodeTextSize() {
+
+    }
+
+    public void setCodeBackground() {
+
     }
 
 }
