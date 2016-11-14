@@ -1,6 +1,10 @@
 # AuthNumberView
 验证码输入控件，支持任意长度的验证码
 
+### v1.0.0
+
+AuthNumberView 基本功能完成，支持任意长度的验证码，目前支持数字，改变字体颜色，和输入框背景，字体大小等基本功能
+
 ### How to use
 
 #### gradle
