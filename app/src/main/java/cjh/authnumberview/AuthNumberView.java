@@ -29,12 +29,6 @@ import java.util.ArrayList;
 
 public class AuthNumberView extends LinearLayout {
 
-    public class TypeValue {
-        public static final int SP = 1;
-        public static final int DP = 2;
-        public static final int PX = 3;
-    }
-
     private static final int DEFAULT_NUMBER_COUNT = 4;
 
     private static final int DEFAULT_WH = 50;
@@ -118,12 +112,6 @@ public class AuthNumberView extends LinearLayout {
                         if (finalJ != list.size() - 1)
                             setSelectView(list.get(finalJ + 1));
                     }
-//                    else {
-//                        if (finalJ != 0) {
-//                            EditText et = list.get(finalJ - 1);
-//                            setSelectView(et);
-//                        }
-//                    }
                 }
 
                 @Override
@@ -226,6 +214,10 @@ public class AuthNumberView extends LinearLayout {
         return (int) (dip * dm.density + 0.5);
     }
 
+    private int sp2px(float spValue) {
+        return (int) (spValue * dm.scaledDensity + 0.5f);
+    }
+
     public void setCodeTextColor(String color) {
         int _color = Color.parseColor(color);
         setCodeTextColor(_color);
@@ -237,12 +229,52 @@ public class AuthNumberView extends LinearLayout {
         }
     }
 
-    public void setCodeTextSize() {
-
+    /**
+     * default is px
+     *
+     * @param size
+     */
+    public void setCodeTextSize(int size) {
+        for (EditText et : list) {
+            et.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        }
     }
 
-    public void setCodeBackground() {
+    public void setCodeTextSize(int type, int size) {
+        int finallySize = size;
+        switch (type) {
+            case TypedValue.COMPLEX_UNIT_SP:
+                finallySize = sp2px(size);
+                break;
 
+            case TypedValue.COMPLEX_UNIT_DIP:
+                finallySize = dip2px(size);
+                break;
+
+            case TypedValue.COMPLEX_UNIT_PX:
+            default:
+                finallySize = size;
+                break;
+        }
+        setCodeTextSize(finallySize);
     }
 
+    public void setCodeBackground(int resId) {
+        for (EditText et : list) {
+            et.setBackgroundResource(resId);
+        }
+    }
+
+
+    public String getCode() {
+        String codes = "";
+        for (EditText et : list) {
+            codes += getString(et);
+        }
+        return codes;
+    }
+
+    private String getString(EditText editText) {
+        return editText.getText().toString().trim();
+    }
 }
