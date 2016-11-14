@@ -1,4 +1,4 @@
-package cjh.authnumberview;
+package cjh.authnumberviewlibrary;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -25,9 +25,14 @@ import java.util.ArrayList;
 
 /**
  * Created by cjh on 16-11-11.
+ * <p>
+ * size type: TypedValue.COMPLEX_UNIT_PX, TypedValue.COMPLEX_UNIT_SP, TypedValue.COMPLEX_UNIT_DP
+ * default size type: TypedValue.COMPLEX_UNIT_PX
  */
 
 public class AuthNumberView extends LinearLayout {
+
+    private static final String TAG = "authNumberView";
 
     private static final int DEFAULT_NUMBER_COUNT = 4;
 
@@ -42,6 +47,8 @@ public class AuthNumberView extends LinearLayout {
     private static final int DEFAULT_CODEPADDING = 2;
 
     private static final int DEFAULT_BGDRAWABLE = R.drawable.selector_default;
+
+    private static final boolean DEFAULT_AUTOTEXTSIZE = true;
 
     private Context context;
 
@@ -61,12 +68,22 @@ public class AuthNumberView extends LinearLayout {
 
     private int codeBgDrawable = DEFAULT_BGDRAWABLE;
 
+    private boolean autoTextSize = DEFAULT_AUTOTEXTSIZE;
+
+    private String codeTest = "";
+
     private EditText selectView;
 
     private ArrayList<EditText> list = new ArrayList<>();
 
     public AuthNumberView(Context context) {
         super(context);
+        init(context, null);
+    }
+
+    public AuthNumberView(Context context, int number_count) {
+        super(context);
+        this.number_count = number_count;
         init(context, null);
     }
 
@@ -151,15 +168,26 @@ public class AuthNumberView extends LinearLayout {
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             editText.setTextColor(codeTextColor);
             editText.setPadding(codePadding, codePadding, codePadding, codePadding);
+            getAutoCodeTextSize();
             editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, codeTextSize);
             int pxWH = dip2px(wh);
-            LinearLayout.LayoutParams mLp = new LayoutParams(pxWH, pxWH);
+            LayoutParams mLp = new LayoutParams(pxWH, pxWH);
             mLp.setMargins(margin, margin, margin, margin);
             editText.setLayoutParams(mLp);
             editText.setBackgroundResource(codeBgDrawable);
+            addCodeTest(editText, i);
             addView(editText);
             list.add(editText);
             editText = null;
+        }
+    }
+
+    private void getAutoCodeTextSize() {
+        if (codeTextSize == -1) {
+            if (autoTextSize)
+                codeTextSize = wh / 5 * 2;
+            else
+                codeTextSize = DEFAULT_CODETEXTSIZE;
         }
     }
 
@@ -185,27 +213,61 @@ public class AuthNumberView extends LinearLayout {
         int count = types.getIndexCount();
         for (int i = 0; i < count; ++i) {
             int attr = types.getIndex(i);
-            switch (attr) {
-                case R.styleable.AuthNumberView_numberCount:
-                    number_count = types.getInteger(attr, -1);
-                    break;
-
-                case R.styleable.AuthNumberView_codeTextColor:
-                    codeTextColor = types.getColor(attr, DEFAULT_CODETEXTCOLOR);
-                    break;
-
-                case R.styleable.AuthNumberView_codeTextSize:
-                    codeTextSize = types.getDimensionPixelSize(attr, DEFAULT_CODETEXTSIZE);
-                    break;
-
-                case R.styleable.AuthNumberView_codePadding:
-                    codePadding = types.getDimensionPixelSize(attr, DEFAULT_CODEPADDING);
-                    break;
-
-                case R.styleable.AuthNumberView_codeBgDrawable:
-                    codeBgDrawable = types.getResourceId(attr, DEFAULT_BGDRAWABLE);
-                    break;
-            }
+            if (attr == R.styleable.AuthNumberView_autoTextSize)
+                autoTextSize = types.getBoolean(attr, DEFAULT_AUTOTEXTSIZE);
+            else if (attr == R.styleable.AuthNumberView_editTextWH)
+                wh = types.getInteger(attr, DEFAULT_WH);
+            else if (attr == R.styleable.AuthNumberView_codeMargin)
+                margin = types.getDimensionPixelSize(attr, DEFAULT_MARGIN) / 2;
+            else if (attr == R.styleable.AuthNumberView_codeTest)
+                codeTest = types.getString(attr);
+            else if (attr == R.styleable.AuthNumberView_numberCount)
+                number_count = types.getInteger(attr, -1);
+            else if (attr == R.styleable.AuthNumberView_codeTextColor)
+                codeTextColor = types.getColor(attr, DEFAULT_CODETEXTCOLOR);
+            else if (attr == R.styleable.AuthNumberView_codeTextSize)
+                codeTextSize = types.getDimensionPixelSize(attr, -1);
+            else if (attr == R.styleable.AuthNumberView_codePadding)
+                codePadding = types.getDimensionPixelSize(attr, DEFAULT_CODEPADDING);
+            else if (attr == R.styleable.AuthNumberView_codeBgDrawable)
+                codeBgDrawable = types.getResourceId(attr, DEFAULT_BGDRAWABLE);
+//            switch (attr) {
+//                case R.styleable.AuthNumberView_autoTextSize:
+//                    autoTextSize = types.getBoolean(attr, DEFAULT_AUTOTEXTSIZE);
+//                    break;
+//
+//                case R.styleable.AuthNumberView_editTextWH:
+//                    wh = types.getInteger(attr, DEFAULT_WH);
+//                    break;
+//
+//                case R.styleable.AuthNumberView_codeMargin:
+//                    margin = types.getDimensionPixelSize(attr, DEFAULT_MARGIN) / 2;
+//                    break;
+//
+//                case R.styleable.AuthNumberView_codeTest:
+//                    codeTest = types.getString(attr);
+//                    break;
+//
+//                case R.styleable.AuthNumberView_numberCount:
+//                    number_count = types.getInteger(attr, -1);
+//                    break;
+//
+//                case R.styleable.AuthNumberView_codeTextColor:
+//                    codeTextColor = types.getColor(attr, DEFAULT_CODETEXTCOLOR);
+//                    break;
+//
+//                case R.styleable.AuthNumberView_codeTextSize:
+//                    codeTextSize = types.getDimensionPixelSize(attr, -1);
+//                    break;
+//
+//                case R.styleable.AuthNumberView_codePadding:
+//                    codePadding = types.getDimensionPixelSize(attr, DEFAULT_CODEPADDING);
+//                    break;
+//
+//                case R.styleable.AuthNumberView_codeBgDrawable:
+//                    codeBgDrawable = types.getResourceId(attr, DEFAULT_BGDRAWABLE);
+//                    break;
+//            }
         }
         types.recycle();
     }
@@ -218,6 +280,28 @@ public class AuthNumberView extends LinearLayout {
         return (int) (spValue * dm.scaledDensity + 0.5f);
     }
 
+    /**
+     * default is px
+     *
+     * @param codePadding
+     */
+    public void setCodePadding(int codePadding) {
+        this.codePadding = codePadding;
+        for (EditText et : list) {
+            et.setPadding(codePadding, codePadding, codePadding, codePadding);
+        }
+    }
+
+    /**
+     * type:
+     *
+     * @param type
+     * @param codePadding
+     */
+    public void setCodePadding(int type, int codePadding) {
+        setCodePadding(getPX(type, codePadding));
+    }
+
     public void setCodeTextColor(String color) {
         int _color = Color.parseColor(color);
         setCodeTextColor(_color);
@@ -226,6 +310,27 @@ public class AuthNumberView extends LinearLayout {
     public void setCodeTextColor(int color) {
         for (EditText et : list) {
             et.setTextColor(color);
+        }
+    }
+
+    public void setCodeMargin(int margin) {
+        for (EditText et : list) {
+            int pxWH = dip2px(wh);
+            LayoutParams mLp = new LayoutParams(pxWH, pxWH);
+            mLp.setMargins(margin, margin, margin, margin);
+            et.setLayoutParams(mLp);
+        }
+    }
+
+    private void addCodeTest(EditText et, int position) {
+        if (codeTest.length() - 1 >= position)
+            et.setText(String.valueOf(codeTest.charAt(position)));
+    }
+
+    public void setCodeTest(String codeTest) {
+        this.codeTest = codeTest;
+        for (int i = 0; i < list.size(); i++) {
+            addCodeTest(list.get(i), i);
         }
     }
 
@@ -241,6 +346,10 @@ public class AuthNumberView extends LinearLayout {
     }
 
     public void setCodeTextSize(int type, int size) {
+        setCodeTextSize(getPX(type, size));
+    }
+
+    private int getPX(int type, int size) {
         int finallySize = size;
         switch (type) {
             case TypedValue.COMPLEX_UNIT_SP:
@@ -256,12 +365,18 @@ public class AuthNumberView extends LinearLayout {
                 finallySize = size;
                 break;
         }
-        setCodeTextSize(finallySize);
+        return finallySize;
     }
 
     public void setCodeBackground(int resId) {
         for (EditText et : list) {
-            et.setBackgroundResource(resId);
+            try {
+                et.setBackgroundResource(resId);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "bg resId is wrong");
+            }
+
         }
     }
 
@@ -276,5 +391,26 @@ public class AuthNumberView extends LinearLayout {
 
     private String getString(EditText editText) {
         return editText.getText().toString().trim();
+    }
+
+    public void setEditTextWH(int size) {
+        for (EditText editText : list) {
+            LinearLayout.LayoutParams layoutParams = (LayoutParams) editText.getLayoutParams();
+            layoutParams.width = size;
+            layoutParams.height = size;
+            editText.setLayoutParams(layoutParams);
+        }
+    }
+
+    public void setEditTextWH(int type, int size) {
+        setEditTextWH(getPX(type, size));
+    }
+
+    public void setAutoTextSize(boolean autoTextSize) {
+        this.autoTextSize = autoTextSize;
+        getAutoCodeTextSize();
+        for (EditText editText : list) {
+            editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, codeTextSize);
+        }
     }
 }
