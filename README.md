@@ -2,8 +2,8 @@
 验证码输入控件，支持任意长度的验证码
 
 ### ScreenShots
-![image](https://github.com/cjhandroid/AuthNumberView/blob/master/app/src/main/assets/ezgif.com-video-to-gif%20(1).gif)  
- ![image](https://github.com/cjhandroid/AuthNumberView/blob/master/app/src/main/assets/ezgif.com-video-to-gif%20(2).gif)  
+<img src="https://github.com/cjhandroid/AuthNumberView/blob/master/app/src/main/assets/ezgif.com-video-to-gif%20(1).gif" width="30%" />
+<img src="https://github.com/cjhandroid/AuthNumberView/blob/master/app/src/main/assets/ezgif.com-video-to-gif%20(2).gif" width="30%" />
 
 ### v1.1.0
 
