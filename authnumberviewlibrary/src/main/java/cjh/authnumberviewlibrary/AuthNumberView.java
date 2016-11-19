@@ -1,8 +1,11 @@
 package cjh.authnumberviewlibrary;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.Editable;
@@ -34,11 +37,11 @@ public class AuthNumberView extends LinearLayout {
 
     private static final String TAG = "authNumberView";
 
-    private static final String BORDER = "border";
+    public static final String BORDER = "border";
 
-    private static final String LINE = "line";
+    public static final String LINE = "line";
 
-    private static final String SYSTEM = "system";
+    public static final String SYSTEM = "system";
 
     private static final int DEFAULT_LINE_COLOR = 0xffdddddd;
 
@@ -96,6 +99,16 @@ public class AuthNumberView extends LinearLayout {
 
     private ArrayList<EditText> list = new ArrayList<>();
     private ArrayList<View> lineViews = new ArrayList<>();
+
+    private CodeFinishListener codeFinishListener;
+
+    public interface CodeFinishListener {
+        void addCodeFinishListener(String code);
+    }
+
+    public void addCodeFinishListene(CodeFinishListener codeFinishListener) {
+        this.codeFinishListener = codeFinishListener;
+    }
 
     public AuthNumberView(Context context) {
         super(context);
@@ -156,6 +169,11 @@ public class AuthNumberView extends LinearLayout {
                     if (charSequence.length() >= 1) {
                         if (finalJ != list.size() - 1)
                             setSelectView(list.get(finalJ + 1));
+                        if (codeFinishListener != null) {
+                            String code = getCode();
+                            if (code.length() == number_count)
+                                codeFinishListener.addCodeFinishListener(code);
+                        }
                     }
                 }
 
@@ -182,6 +200,14 @@ public class AuthNumberView extends LinearLayout {
     private void setSelectView(EditText editText) {
         editText.requestFocus();
         selectView = editText;
+        int positon = list.indexOf(editText);
+        if (editStyle.equals(LINE))
+            for (int i = 0; i < number_count; i++) {
+                if (i == positon)
+                    lineViews.get(i).setBackgroundColor(selectLineColor);
+                else
+                    lineViews.get(i).setBackgroundColor(defaultLineColor);
+            }
     }
 
     private void initEditText() {
@@ -214,6 +240,7 @@ public class AuthNumberView extends LinearLayout {
             list.add(editText);
 
             if (editStyle.equals(LINE)) {
+                editText.setBackground(null);
                 View view = new View(context);
                 mLp = new LayoutParams(pxWH - linePadding * 2, lineWidth);
                 mLp.topMargin = -sp2px(codeTextSize) + dip2px(10) + dip2px(lineMarginTop);
@@ -221,7 +248,7 @@ public class AuthNumberView extends LinearLayout {
                 view.setBackgroundColor(defaultLineColor);
                 linearLayout.addView(view);
                 lineViews.add(view);
-            } else {
+            } else if (editStyle.equals(BORDER)) {
                 editText.setBackgroundResource(codeBgDrawable);
             }
             addView(linearLayout);
@@ -438,12 +465,54 @@ public class AuthNumberView extends LinearLayout {
         }
     }
 
-    public void setLineViewColor(int defaultLineColor){
-
+    public void setLineViewColor(int defaultLineColor) {
+        setLineViewColor(defaultLineColor, defaultLineColor);
     }
 
-    public void setLineViewColor(int defaultLineColor, int selectLineColor){
-        
+    public void setLineViewColor(String defaultLineColor) {
+        int color = Color.parseColor(defaultLineColor);
+        setLineViewColor(color, color);
+    }
+
+    public void setLineViewColor(String defaultLineColor, String selectLineColor) {
+        int color1 = Color.parseColor(defaultLineColor);
+        int color2 = Color.parseColor(selectLineColor);
+        setLineViewColor(color1, color2);
+    }
+
+    public void setLineViewColor(int defaultLineColor, int selectLineColor) {
+        this.defaultLineColor = defaultLineColor;
+        this.selectLineColor = selectLineColor;
+        for (View view : lineViews) {
+            view.setBackgroundColor(defaultLineColor);
+        }
+    }
+
+    public void setLineMarginTop(int lineMarginTop) {
+        this.lineMarginTop = lineMarginTop;
+        for (View view : lineViews) {
+            LinearLayout.LayoutParams mLp = (LayoutParams) view.getLayoutParams();
+            mLp.topMargin = -sp2px(codeTextSize) + dip2px(10) + lineMarginTop;
+            view.setLayoutParams(mLp);
+        }
+    }
+
+    public void setLinePadding(int linePadding) {
+        this.linePadding = linePadding;
+        for (View view : lineViews) {
+            LinearLayout.LayoutParams mLp = (LayoutParams) view.getLayoutParams();
+            mLp.width = dip2px(wh) - linePadding * 2;
+            view.setLayoutParams(mLp);
+        }
+    }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+        for (View view : lineViews) {
+            LinearLayout.LayoutParams mLp = (LayoutParams) view.getLayoutParams();
+            mLp.height = lineWidth;
+            view.setLayoutParams(mLp);
+        }
     }
 
 }

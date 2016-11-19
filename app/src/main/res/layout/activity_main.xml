@@ -9,34 +9,6 @@
     android:orientation="vertical"
     tools:context="cjh.authnumberview.MainActivity">
 
-    <cjh.authnumberviewlibrary.AuthNumberView
-        android:id="@+id/auth1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:codeMargin="5dp"
-        app:codeTest="1234"
-        app:codeTextSize="12sp"
-        app:editStyle="border"
-        app:editTextWH="20dp"
-        app:numberCount="6" />
-
-    <cjh.authnumberviewlibrary.AuthNumberView
-        android:id="@+id/auth3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:autoTextSize="false"
-        app:codeTest="1234"
-        app:defaultLineColor="#00ff00"
-        app:editStyle="line"
-        app:editTextWH="25dp"
-        app:lineMarginTop="-1dp"
-        app:linePadding="10dp"
-        app:lineWidth="1dp"
-        app:numberCount="4"
-        app:selectLineColor="#ff0000" />
-
 
     <TextView
         android:id="@+id/content"
@@ -50,22 +22,90 @@
         android:textColor="#ffffff"
         android:textSize="12sp" />
 
+    <cjh.authnumberviewlibrary.AuthNumberView
+        android:id="@+id/auth1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:codeMargin="2dp"
+        app:codeTest="1234"
+        app:codeTextSize="8sp"
+        app:editStyle="border"
+        app:editTextWH="15dp"
+        app:numberCount="6" />
+
+    <cjh.authnumberviewlibrary.AuthNumberView
+        android:id="@+id/auth2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:autoTextSize="false"
+        app:codeTest="1234"
+        app:defaultLineColor="#00ff00"
+        app:editStyle="line"
+        app:editTextWH="15dp"
+        app:lineMarginTop="0dp"
+        app:linePadding="0dp"
+        app:lineWidth="1dp"
+        app:numberCount="4"
+        app:selectLineColor="#ff0000" />
+
+
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:columnCount="2">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="getCode"
-            android:text="getCode" />
+            android:onClick="getBorderCode"
+            android:text="getBorderCode"
+            android:textAllCaps="false" />
 
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="changeBg"
-            android:text="changeBg" />
+            android:onClick="changeBorderBg"
+            android:text="changeBorderBg"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeBorderMargin"
+            android:text="changeBorderMargin"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLineColor"
+            android:text="changeLineColor"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLinePadding"
+            android:text="changeLinePadding"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLineMarginTop"
+            android:text="changeLineMarginTop"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLineWidth"
+            android:text="changeLineWidth"
+            android:textAllCaps="false" />
+
     </GridLayout>
 
 
