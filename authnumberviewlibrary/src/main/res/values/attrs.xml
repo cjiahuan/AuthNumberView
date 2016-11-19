@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="AuthNumberView">
         <attr name="autoTextSize" format="boolean"></attr>
-        <attr name="editTextWH" format="integer"></attr>
+        <attr name="editTextWH" format="dimension"></attr>
         <attr name="codeTest" format="string"></attr>
         <attr name="numberCount" format="integer"></attr>
         <attr name="codeTextColor" format="color"></attr>
@@ -11,5 +11,11 @@
         <attr name="borderSize" format="dimension"></attr>
         <attr name="codeBgDrawable" format="reference"></attr>
         <attr name="codeMargin" format="dimension"></attr>
+        <attr name="editStyle" format="string"></attr>
+        <attr name="linePadding" format="dimension"></attr>
+        <attr name="lineWidth" format="dimension"></attr>
+        <attr name="defaultLineColor" format="color"></attr>
+        <attr name="selectLineColor" format="color"></attr>
+        <attr name="lineMarginTop" format="dimension"></attr>
     </declare-styleable>
 </resources>
