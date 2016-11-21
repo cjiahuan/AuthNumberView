@@ -27,7 +27,7 @@ allprojects {
 
   ```
   dependencies {
-	        compile 'com.github.cjhandroid:AuthNumberView:v1.1.0'
+	        compile 'com.github.cjhandroid:AuthNumberView:v1.1.1'
 	}
   ```
 
