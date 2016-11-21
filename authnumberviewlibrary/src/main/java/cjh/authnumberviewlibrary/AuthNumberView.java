@@ -515,4 +515,13 @@ public class AuthNumberView extends LinearLayout {
         }
     }
 
+    public void resetCode() {
+        if (list.size() > 0) {
+            for (EditText editText : list) {
+                editText.setText("");
+            }
+            setSelectView(list.get(0));
+        }
+    }
+
 }

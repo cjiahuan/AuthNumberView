@@ -101,4 +101,14 @@ public class MainActivity extends AppCompatActivity {
         auth2.setLineWidth(12);
     }
 
+
+    /**
+     * clear and reset codeView
+     *
+     * @param view
+     */
+    public void resetCode(View view) {
+        auth2.resetCode();
+    }
+
 }
