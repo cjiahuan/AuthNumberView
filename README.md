@@ -5,6 +5,9 @@
 <img src="https://github.com/cjhandroid/AuthNumberView/blob/master/app/src/main/assets/ezgif.com-video-to-gif%20(1).gif" width="30%" />
 <img src="https://github.com/cjhandroid/AuthNumberView/blob/master/app/src/main/assets/ezgif.com-video-to-gif%20(2).gif" width="30%" />
 
+### v1.1.1
+添加了重新设置的方法 resetCode
+
 ### v1.1.0
 
 提供另外一种可定制的类型：Line ,默认是 Border 边框类型. 当然也支持 系统原生的 如果 在style 处随便输入 非 border / line 的字符串就行了，line 高度自定义，包括 线 的颜色。另外还可以监听到输入完成的动作
@@ -141,5 +144,14 @@ auth1.addCodeFinishListene(new AuthNumberView.CodeFinishListener() {
         auth2.setLineWidth(12);
     }
     
-    ...
+    
+     /**
+         * clear and reset codeView
+         *
+         * @param view
+         */
+        public void resetCode(View view) {
+            auth2.resetCode();
+        }
+        ...
 ```
